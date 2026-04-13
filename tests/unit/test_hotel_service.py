@@ -3,7 +3,6 @@ from unittest.mock import Mock
 
 from src.hotel_service import HotelService
 
-
 def make_service():
     room_repository = Mock()
     guest_repository = Mock()
