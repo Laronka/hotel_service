@@ -22,6 +22,9 @@ def make_service():
     )
     return service, room_repository, guest_repository, stay_repository, waitlist_repository
 
+""" 
+Função que testa o checkin com sucesso.
+"""
 def test_check_in_com_sucesso():
     service, room_repository, guest_repository, stay_repository, waitlist_repository = make_service()
     test = service.check_in(1, 101)
@@ -29,4 +32,14 @@ def test_check_in_com_sucesso():
     assert test is True
     assert room_repository.is_available(101) is False
     assert stay_repository.has_active_stay(101) is True
+
+""" 
+Função que verifica um quarto inexistente, deve retornar falso para um room id inexistente.
+"""
+def test_check_in_quarto_inexistente():
+    service, room_repository, guest_repository, stay_repository, waitlist_repository = make_service()
+    quarto = service.check_in(1, 999)
+
+    assert quarto is False
+
 
