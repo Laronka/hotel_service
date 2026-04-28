@@ -42,9 +42,21 @@ def test_check_in_quarto_inexistente():
 
     assert quarto is False
 
+""" 
+Função que verifica a tentativa de checkin de um hospede inexistente.
+"""
 def test_check_in_hospede_inexistente():
     service, room_repository, guest_repository, stay_repository, waitlist_repository = make_service()
     hospede = service.check_in(999, 101)
 
     assert hospede is False
+
+""" 
+Função que verifica a tentativa de checkin de um hospede com debito pendente.
+"""
+def test_check_bloqueado_por_debito():
+    service, room_repository, guest_repository, stay_repository, waitlist_repository = make_service()
+    bloqueado = service.check_in(3, 101)
+
+    assert bloqueado is False
 
