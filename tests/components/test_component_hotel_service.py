@@ -60,3 +60,26 @@ def test_check_bloqueado_por_debito():
 
     assert bloqueado is False
 
+""" 
+Função que verifica a tentativa de checkin de um hospede bloqueado.
+"""
+def test_check_in_bloqueado_por_usuario_bloqueado():
+    service, room_repository, guest_repository, stay_repository, waitlist_repository = make_service()
+    bloqueado = service.check_in(2, 101)
+
+    assert bloqueado is False
+
+""" 
+Função que verifica o check-in bloqueado após duas hospedagens.
+"""
+def test_check_in_bloqueado_por_mais_de_duas_hospedagens():
+    service, room_repository, guest_repository, stay_repository, waitlist_repository = make_service()
+    checkin1 = service.check_in(1, 101)
+    checkin2 = service.check_in(1, 201)
+    room_repository.mark_available(102) 
+    checkin3 = service.check_in(1, 102)
+
+    assert checkin1 is True
+    assert checkin2 is True
+    assert checkin3 is False
+
