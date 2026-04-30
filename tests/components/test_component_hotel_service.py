@@ -83,3 +83,10 @@ def test_check_in_bloqueado_por_mais_de_duas_hospedagens():
     assert checkin2 is True
     assert checkin3 is False
 
+def test_entra_em_fila_de_espera():
+    service, room_repository, guest_repository, stay_repository, waitlist_repository = make_service()
+    fila = service.join_waitlist(4, 202)
+
+    assert fila is True
+    assert waitlist_repository.has_entry(4, 202) is True
+            
