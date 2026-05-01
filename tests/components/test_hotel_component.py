@@ -105,7 +105,7 @@ def test_entrada_duplicada_fila_de_espera():
     assert fila2 is False
 
 """
-Função que testa o checkout com sucesso
+Função que testa o check-out com sucesso
 """ 
 def test_check_out_com_sucesso():
     service, room_repository, guest_repository, stay_repository, waitlist_repository = make_service()
@@ -117,7 +117,7 @@ def test_check_out_com_sucesso():
     assert stay_repository.has_active_stay(101) is False
 
 """
-Função que testa o checkout com fila de espera
+Função que testa o check-out com fila de espera
 """ 
 def test_check_out_com_fila_de_espera():
     service, room_repository, guest_repository, stay_repository, waitlist_repository = make_service()
@@ -126,6 +126,18 @@ def test_check_out_com_fila_de_espera():
     service.check_out(1, 101)
 
     assert room_repository.is_available(101) is False
+    
+"""
+Função que testa o check-in de um hospedena fila
+"""
+def test_check_in_com_sucesso_hospode_na_fila():
+    service, room_repository, guest_repository, stay_repository, waitlist_repository = make_service()
+    service.join_waitlist(4, 102)
+    room_repository.mark_available(102)
+    checkin = service.check_in(4, 102)
 
+    assert checkin is True
+    assert stay_repository.has_active_stay(102) is True
+    assert waitlist_repository.has_entry(4, 102) is False
 
     
