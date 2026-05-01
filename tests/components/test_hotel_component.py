@@ -83,6 +83,9 @@ def test_check_in_bloqueado_por_mais_de_duas_hospedagens():
     assert checkin2 is True
     assert checkin3 is False
 
+""" 
+Função que verifica o check-in bloqueado após duas hospedagens.
+"""
 def test_entra_em_fila_de_espera():
     service, room_repository, guest_repository, stay_repository, waitlist_repository = make_service()
     fila = service.join_waitlist(4, 202)
@@ -97,3 +100,12 @@ def test_entrada_duplicada_fila_de_espera():
 
     assert fila1 is True
     assert fila2 is False
+
+def test_check_out_com_sucesso():
+    service, room_repository, guest_repository, stay_repository, waitlist_repository = make_service()
+    checkin = service.check_in(1, 101)
+    checkout = service.check_out(1, 101)
+
+    assert checkout is True
+    assert room_repository.is_available(101) is True
+    assert stay_repository.has_active_stay(101) is False
