@@ -128,7 +128,7 @@ def test_check_out_com_fila_de_espera():
     assert room_repository.is_available(101) is False
     
 """
-Função que testa o check-in de um hospedena fila
+Função que testa o check-in de um hospede na fila
 """
 def test_check_in_com_sucesso_hospode_na_fila():
     service, room_repository, guest_repository, stay_repository, waitlist_repository = make_service()
@@ -139,5 +139,22 @@ def test_check_in_com_sucesso_hospode_na_fila():
     assert checkin is True
     assert stay_repository.has_active_stay(102) is True
     assert waitlist_repository.has_entry(4, 102) is False
+
+"""
+Função que testa a sequencia de check-in completa
+"""
+def test_sequencia_completa():
+    service, room_repository, guest_repository, stay_repository, waitlist_repository = make_service()
+    checkin1 = service.check_in(1, 101)
+    checkin2 = service.check_in(4, 101)
+    fila = service.join_waitlist(4, 101)
+    checkout = service.check_out(1, 101)
+    checkin3 = service.check_in(1, 101)
+
+    assert checkin1 is True
+    assert checkin2 is False
+    assert fila is True
+    assert checkout is True
+    assert checkin3 is False
 
     
